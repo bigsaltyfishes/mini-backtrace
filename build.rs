@@ -18,16 +18,18 @@ fn compile_libunwind() {
     #[cfg(feature = "alloc")]
     cfg.define("_LIBUNWIND_NO_HEAP", None);
     #[cfg(not(feature = "alloc"))]
-    cfg.define("_LIBUNWIND_NO_HEAP", "1");
+    cfg.define("_LIBUNWIND_NO_HEAP", "ON");
     #[cfg(not(feature = "bare_metal"))]
     cfg.define("_LIBUNWIND_IS_BAREMETAL", None);
     #[cfg(feature = "bare_metal")]
-    cfg.define("_LIBUNWIND_IS_BAREMETAL", "1");
+    cfg.define("_LIBUNWIND_IS_BAREMETAL", "ON");
+    #[cfg(feature = "remember_stack")]
+    cfg.define("LIBUNWIND_REMEMBER_HEAP_ALLOC", "ON");
     cfg.define("_LIBUNWIND_IS_NATIVE_ONLY", None);
     #[cfg(feature = "thread")]
     cfg.define("_LIBUNWIND_HAS_NO_THREADS", None);
     #[cfg(not(feature = "thread"))]
-    cfg.define("_LIBUNWIND_HAS_NO_THREADS", "1");
+    cfg.define("_LIBUNWIND_HAS_NO_THREADS", "ON");
     cfg.define("NDEBUG", None);
     cfg.include("llvm-libunwind/include");
     cfg.include("include");
