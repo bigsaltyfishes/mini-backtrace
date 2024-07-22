@@ -179,6 +179,9 @@ cfg_if::cfg_if! {
     } else if #[cfg(any(target_arch = "riscv64", target_arch = "riscv32"))] {
         mod riscv;
         pub use riscv::Context;
+    } else if #[cfg(target_arch = "x86_64")] {
+        mod x86_64;
+        pub use x86_64::Context;
     }
 }
 
@@ -236,7 +239,7 @@ impl<const N: usize> Backtrace<N> {
     ///
     /// If no unwinding information is found for the instruction pointer address
     /// in the context then `None` is returned.
-    #[cfg(any(target_arch = "aarch64", target_arch = "riscv64"))]
+    #[cfg(any(target_arch = "aarch64", target_arch = "riscv64", target_arch = "x86_64"))]
     pub fn capture_from_context(ctx: &Context) -> Option<Self> {
         unsafe {
             let mut unw_context = MaybeUninit::uninit();
