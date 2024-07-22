@@ -13,10 +13,21 @@ fn compile_libunwind() {
     cfg.flag("-fstrict-aliasing");
     cfg.flag("-fvisibility=hidden");
     cfg.flag("-funwind-tables");
+    #[cfg(feature = "bare_metal")]
+    cfg.flag("-fno-stack-protector");
+    #[cfg(feature = "alloc")]
     cfg.define("_LIBUNWIND_NO_HEAP", None);
+    #[cfg(not(feature = "alloc"))]
+    cfg.define("_LIBUNWIND_NO_HEAP", "1");
+    #[cfg(not(feature = "bare_metal"))]
     cfg.define("_LIBUNWIND_IS_BAREMETAL", None);
+    #[cfg(feature = "bare_metal")]
+    cfg.define("_LIBUNWIND_IS_BAREMETAL", "1");
     cfg.define("_LIBUNWIND_IS_NATIVE_ONLY", None);
+    #[cfg(feature = "thread")]
     cfg.define("_LIBUNWIND_HAS_NO_THREADS", None);
+    #[cfg(not(feature = "thread"))]
+    cfg.define("_LIBUNWIND_HAS_NO_THREADS", "1");
     cfg.define("NDEBUG", None);
     cfg.include("llvm-libunwind/include");
     cfg.include("include");

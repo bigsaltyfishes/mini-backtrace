@@ -1,8 +1,8 @@
 [package]
 name = "mini-backtrace"
-version = "0.1.4"
-edition = "2018"
-authors = ["Amanieu d'Antras <amanieu@gmail.com>"]
+version = "0.1.5"
+edition = "2021"
+authors = ["Amanieu d'Antras <amanieu@gmail.com>", "bigsaltyfishes <bigsaltyfishes@gmail.com>"]
 description = "Backtrace support for no_std and embedded programs"
 license = "Apache-2.0/MIT"
 repository = "https://github.com/Amanieu/mini-backtrace"
@@ -16,5 +16,11 @@ cfg-if = "1.0.0"
 
 [build-dependencies]
 cc = "1.0.79"
-bindgen = "0.65.1"
+bindgen = "0.69.4"
 walkdir = "2.3.3"
+
+[features]
+default = [ "thread", "alloc" ]
+thread = []
+alloc = []
+bare_metal = []
